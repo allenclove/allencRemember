@@ -1,0 +1,16 @@
+spring:
+  mail:
+    host: smtp.qq.com
+    username: allenc5319@qq.com
+    #password: jtmaykmewybjbada
+    default-encoding: utf-8
+  datasource:
+    url: jdbc:mysql://139.9.172.236:3310/test?userUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update  #自动更新
+    show-sql: true #日志中展示sql
+

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+    <link rel="stylesheet" href="../css/default.css">
+    <!-- import JavaScript -->
+    <script src="https://unpkg.com/element-plus"></script>
+    <title>Element Plus demo</title>
+</head>
+<body>
+<div id="app">
+    <el-container>
+        <el-header>添加邮箱账户</el-header>
+        <el-main>
+            <el-form ref="ruleForm" :model="ruleForm" label-width="100px" :label-position="labelPosition" :rules="rules">
+                <el-form-item label="邮箱账号：" prop="emailAccount">
+                    <el-input v-model="ruleForm.emailAccount"></el-input>
+                </el-form-item>
+                <el-form-item label="授权码：" prop="passwordCode">
+                    <el-input v-model="ruleForm.passwordCode"></el-input>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="submitForm('ruleForm')"
+                    >Create</el-button
+                    >
+                    <el-button @click="resetForm('ruleForm')">Reset</el-button>
+                </el-form-item>
+            </el-form>
+        </el-main>
+    </el-container>
+</div>
+<script>
+    const App = {
+        data() {
+            return {
+                labelPosition: 'right',
+                ruleForm: {
+                    emailAccount:'',
+                    passwordCode:'',
+                },
+                rules: {
+                    emailAccount: [
+                        {
+                            required: true,
+                            message: '请输入邮箱账号！',
+                            trigger: 'blur',
+                        },
+                        {
+                            type: 'email',
+                            message: '请输入正确的邮箱账号！',
+                            trigger: ['blur', 'change'],
+                        },
+                    ],
+                    passwordCode: [
+                        {
+                            required: true,
+                            message: '请输入授权码！',
+                            trigger: 'blur',
+                        },
+                    ],
+                },
+            };
+        },
+        methods: {
+            submitForm(formName) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        //校验通过，提交表单
+                        console.log('valid pass!!');
+                        axios.post('http://localhost:8080/addEmailAccount',this.ruleForm)
+                            .then(resp => {
+                                alert(resp.data.msg);
+                            })
+                            .catch(resp => {
+                            alert(resp.data.msg);
+                        })
+                    } else {
+                        console.log('error submit!!');
+                        return false
+                    }
+                })
+            },
+            resetForm(formName) {
+                this.$refs[formName].resetFields()
+            },
+        },
+    };
+    const app = Vue.createApp(App);
+    app.use(ElementPlus);
+    app.mount("#app");
+</script>
+</body>
+</html>

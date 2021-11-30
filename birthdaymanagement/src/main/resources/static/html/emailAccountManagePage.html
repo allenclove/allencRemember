@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+    <script src="https://unpkg.com/vue@next"></script>
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css">
+    <link rel="stylesheet" href="../css/default.css">
+    <!-- import JavaScript -->
+    <script src="https://unpkg.com/element-plus"></script>
+    <title>邮箱账户管理</title>
+</head>
+<body>
+<div id="app">
+    <el-container>
+        <el-header><h2>邮箱账户管理</h2></el-header>
+        <el-main>
+            <el-table :data="tableData.filter(
+        (data) =>
+          !search || data.emailAccount.toLowerCase().includes(search.toLowerCase())
+      )" style="width: 100%">
+                <el-table-column label="EmailAccount" width="180">
+                    <template #default="scope">
+                        <span style="margin-left: 10px">{{ scope.row.emailAccount }}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column label="PasswordCode" width="180">
+                    <template #default="scope">
+                        <span style="margin-left: 10px">{{ scope.row.passwordCode }}</span>
+                    </template>
+                </el-table-column>
+                <el-table-column align="right">
+                    <template #header>
+                        <el-input v-model="search" size="mini" placeholder="Type to search"/>
+                    </template>
+                    <template #default="scope">
+                        <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"
+                        >Edit
+                        </el-button
+                        >
+                        <el-button
+                                size="mini"
+                                type="danger"
+                                @click="handleDelete(scope.$index, scope.row)"
+                        >Delete
+                        </el-button
+                        >
+                    </template>
+                </el-table-column>
+            </el-table>
+        </el-main>
+    </el-container>
+</div>
+<script>
+    const App = {
+        data() {
+            return {
+                tableData: [
+                    {
+                        emailAccount: '11111@qq.com',
+                        passwordCode: '1111111',
+                    },
+                    {
+                        emailAccount: '22222@qq.com',
+                        passwordCode: '22222222',
+                    },
+                    {
+                        emailAccount: '33333@qq.com',
+                        passwordCode: '333333333',
+                    },
+                    {
+                        emailAccount: '44444@qq.com',
+                        passwordCode: '444444444',
+                    },
+                ],
+                search: '',
+            };
+        },
+        methods: {
+            handleEdit(index, row) {
+                console.log(index, row)
+            },
+            handleDelete(index, row) {
+                console.log(index, row)
+            },
+        },
+    };
+    const app = Vue.createApp(App);
+    app.use(ElementPlus);
+    app.mount("#app");
+</script>
+</body>
+</html>
